@@ -66,15 +66,27 @@ function App() {
 
   const calcFalsePositive = () => {
     //for clarity, this follows the example from RKI:
+    //debugger;
     const totalPeople = 100000;
-    const realinfected = infected;
     const notInfected = totalPeople - infected;
-    const infectedPositiveTest = infected * selectedProduct.sensitivity;
-    const infectedNegativeTest = infected * (1 - selectedProduct.sensitivity);
+    const infectedPositiveTest = (infected * selectedProduct.sensitivity) / 100;
+    const infectedNegativeTest =
+      infected * (1 - selectedProduct.sensitivity / 100);
     const notInfectedPositiveTest =
-      notInfected * (1 - selectedProduct.specifity);
-    const probability = (infectedPositiveTest / notInfectedPositiveTest) * 100;
-    setProbabilityFalsePositive(probability.toString() + "%");
+      notInfected * (1 - selectedProduct.specifity / 100);
+    const probability = infectedPositiveTest / notInfectedPositiveTest;
+    const dataset = {
+      specifity: selectedProduct.specifity,
+      sensitivity: selectedProduct.sensitivity,
+      infected: infected,
+      notInfected: notInfected,
+      infectedPositiveTest: infectedPositiveTest,
+      infectedNegativeTest: infectedNegativeTest,
+      notInfectedPositiveTest: notInfectedPositiveTest,
+      probability: probability,
+    };
+    console.log(dataset);
+    setProbabilityFalsePositive(Math.round(probability * 100));
   };
 
   useEffect(() => {
@@ -95,8 +107,8 @@ function App() {
             output.map((p) => {
               newProducts.push({
                 productname: p[3] + " - " + p[1],
-                specifity: p[10],
-                sensitivity: p[12],
+                specifity: parseFloat(p[10].replace(",", ".")),
+                sensitivity: parseFloat(p[12].replace(",", ".")),
               });
             });
           }
@@ -172,7 +184,6 @@ function App() {
           min={20}
           max={600}
           onChange={(event, newValue) => {
-            console.log(newValue);
             setInfected(newValue);
             calcFalsePositive();
           }}
