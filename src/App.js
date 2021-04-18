@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,10 +8,14 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Slider from "@material-ui/core/Slider";
+import Divider from "@material-ui/core/Divider";
+
+import parse from "csv-parse";
 
 function Copyright() {
   return (
@@ -26,50 +30,107 @@ function Copyright() {
   );
 }
 
-const productdata = [
-  { product: "Minimal Test", specifity: 0.8, sensitivity: 0.9 },
-  { product: "Minimal Test 2", specifity: 0.8, sensitivity: 0.9 },
-];
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
+    padding: "10px",
     alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
 }));
 
 function App() {
   const classes = useStyles();
+  const defaultInfected = 150;
+  const [products, setProducts] = useState([
+    { productname: "Standard", specifity: 80, sensitivity: 95 },
+  ]);
+  const [selectedProduct, setSelectedProduct] = useState({
+    productname: "Standard",
+    specifity: 80,
+    sensitivity: 95,
+  });
+  const [infected, setInfected] = useState(defaultInfected);
+  const [probabilityFalsePositive, setProbabilityFalsePositive] = useState(
+    "20%"
+  );
+
+  function valuetext(value) {
+    return `${value}`;
+  }
+
+  const calcFalsePositive = () => {
+    //for clarity, this follows the example from RKI:
+    const totalPeople = 100000;
+    const realinfected = infected;
+    const notInfected = totalPeople - infected;
+    const infectedPositiveTest = infected * selectedProduct.sensitivity;
+    const infectedNegativeTest = infected * (1 - selectedProduct.sensitivity);
+    const notInfectedPositiveTest =
+      notInfected * (1 - selectedProduct.specifity);
+    const probability = (infectedPositiveTest / notInfectedPositiveTest) * 100;
+    setProbabilityFalsePositive(probability.toString() + "%");
+  };
+
+  useEffect(() => {
+    console.log("Starting web app and loading csv..");
+    const newProducts = [...products];
+
+    fetch(".//antigentests.csv")
+      // Retrieve its body as ReadableStream
+      .then((response) => response.text())
+      .then((txt) => {
+        parse(
+          txt,
+          {
+            delimiter: ";",
+          },
+          (err, output) => {
+            console.log(output);
+            output.map((p) => {
+              newProducts.push({
+                productname: p[3] + " - " + p[1],
+                specifity: p[10],
+                sensitivity: p[12],
+              });
+            });
+          }
+        );
+      });
+    setProducts(newProducts);
+  }, [products.join(";")]);
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LocalHospitalIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Bin ich positiv?
+          Bin ich wirklich Corona-positiv?
+        </Typography>
+        <Divider />
+        <Typography component="h2" variant="h5">
+          Hersteller
         </Typography>
 
         <Autocomplete
           id="combo-box-demo"
-          options={productdata}
-          getOptionLabel={(option) => option.product}
-          style={{ width: 500 }}
+          options={products}
+          getOptionLabel={(option) => option.productname}
+          fullWidth
+          disableClearable
+          onChange={(event, newValue) => {
+            console.log(newValue);
+            setSelectedProduct(newValue);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -81,27 +142,51 @@ function App() {
         <TextField
           variant="outlined"
           margin="normal"
-          required
+          disabled
           fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
+          name="sensitivity"
+          label="Sensitivität"
+          id="sensitivity"
+          value={selectedProduct.sensitivity}
         />
-
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="#" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          disabled
+          fullWidth
+          name="specificity"
+          label="Spezifität"
+          id="specificity"
+          value={selectedProduct.specifity}
+        />
+        <Typography component="h2" variant="h5">
+          Infizierte pro 100.000
+        </Typography>
+        <Slider
+          defaultValue={defaultInfected}
+          getAriaValueText={valuetext}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={5}
+          marks
+          min={20}
+          max={600}
+          onChange={(event, newValue) => {
+            console.log(newValue);
+            setInfected(newValue);
+            calcFalsePositive();
+          }}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          disabled
+          fullWidth
+          name="Wahrscheinlichkeit"
+          label="Wahrscheinlichkeit"
+          id="probability"
+          value={probabilityFalsePositive}
+        />
       </div>
       <Box mt={8}>
         <Copyright />
