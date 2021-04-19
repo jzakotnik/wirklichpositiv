@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Slider from "@material-ui/core/Slider";
 import Divider from "@material-ui/core/Divider";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 import parse from "csv-parse";
 
@@ -21,26 +22,32 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       <Link color="inherit" href="https://github.com/jzakotnik/wirklichpositiv">
-        Impressum und Infos - Jure Zakotnik
+        Impressum, Infos und Github
       </Link>{" "}
-      {new Date().getFullYear()}
+      - Jure Zakotnik {new Date().getFullYear()}
       {"."}
     </Typography>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    background: "linear-gradient(45deg, #FEFFFB 30%, #FFCEF3 90%)",
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    padding: "5px",
-    spacing: "10px",
+    padding: "1px",
+    spacing: "1px",
     alignItems: "center",
   },
   avatar: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     backgroundColor: theme.palette.secondary.main,
+  },
+  labels: {
+    padding: "5px",
   },
 }));
 
@@ -85,7 +92,7 @@ function App() {
       notInfectedPositiveTest: notInfectedPositiveTest,
       probability: probability,
     };
-    console.log(dataset);
+    //console.log(dataset);
     setProbabilityFalsePositive(Math.round(probability * 100));
   };
 
@@ -104,7 +111,7 @@ function App() {
             delimiter: ";",
           },
           (err, output) => {
-            console.log(output);
+            //console.log(output);
             output.map((p) => {
               //skip first line
               if (p[3] != "Hersteller Name") {
@@ -123,109 +130,126 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("Refreshing calculation");
+    //console.log("Refreshing calculation");
     calcFalsePositive();
     return () => {};
   }, [selectedProduct, infected]);
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Bin ich wirklich Corona-positiv?
-        </Typography>
-        <Avatar className={classes.avatar}>
-          <LocalHospitalIcon />
-        </Avatar>
-        <Typography component="h4" variant="h7">
-          Welcher Antigen-Test?
-        </Typography>
-
-        <Autocomplete
-          id="combo-box-demo"
-          options={products}
-          getOptionLabel={(option) => option.productname}
-          fullWidth
-          disableClearable
-          onChange={(event, newValue) => {
-            console.log(newValue);
-            setSelectedProduct(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Antigen Test Hersteller"
-              variant="outlined"
+      <div className={classes.root}>
+        <div className={classes.paper}>
+          <Typography component="h2" variant="h5">
+            Bin ich wirklich Corona-positiv?
+          </Typography>
+          <Avatar className={classes.avatar}>
+            <LocalHospitalIcon />
+          </Avatar>
+          <Typography component="h4" variant="h7">
+            Welcher Antigen-Test?
+          </Typography>
+          <div className={classes.typography}>
+            <Autocomplete
+              id="combo-box-demo"
+              options={products}
+              getOptionLabel={(option) => option.productname}
+              fullWidth
+              disableClearable
+              onChange={(event, newValue) => {
+                console.log(newValue);
+                setSelectedProduct(newValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Antigen Test Hersteller"
+                  variant="outlined"
+                />
+              )}
             />
-          )}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          fullWidth
-          name="sensitivity"
-          label="Sensitivität"
-          id="sensitivity"
-          value={selectedProduct.sensitivity}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          fullWidth
-          name="specificity"
-          label="Spezifität"
-          id="specificity"
-          value={selectedProduct.specifity}
-        />
-        <Typography component="h4" variant="h7">
-          Wieviele Infizierte pro 100.000?
-        </Typography>
-        <Slider
-          defaultValue={defaultInfected}
-          getAriaValueText={valuetext}
-          aria-labelledby="discrete-slider"
-          valueLabelDisplay="auto"
-          step={10}
-          marks
-          min={20}
-          max={1000}
-          onChange={(event, newValue) => {
-            setInfected(newValue);
-          }}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          fullWidth
-          name="infected"
-          label="Infizierte pro 100.000 Menschen"
-          id="infected"
-          value={infected}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          fullWidth
-          name="Wahrscheinlichkeit"
-          label="Wahrscheinlichkeit für korrekten positiven Test"
-          id="probability"
-          value={probabilityFalsePositive + " %"}
-        />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              name="sensitivity"
+              label="Sensitivität"
+              id="sensitivity"
+              value={selectedProduct.sensitivity}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              name="specificity"
+              label="Spezifität"
+              id="specificity"
+              value={selectedProduct.specifity}
+            />
+            <Typography component="h4" variant="h7">
+              Wieviele Infizierte pro 100.000?
+            </Typography>
+            <Slider
+              defaultValue={defaultInfected}
+              getAriaValueText={valuetext}
+              aria-labelledby="discrete-slider"
+              valueLabelDisplay="auto"
+              step={10}
+              marks
+              min={20}
+              max={1000}
+              onChange={(event, newValue) => {
+                setInfected(newValue);
+              }}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              name="infected"
+              label="Infizierte pro 100.000 Menschen"
+              id="infected"
+              value={infected}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              fullWidth
+              name="Wahrscheinlichkeit"
+              label="Wahrscheinlichkeit für Infektion bei positivem Test"
+              id="probability"
+              value={probabilityFalsePositive + " %"}
+            />
+            <Typography component="h4" variant="h7">
+              Worum geht es?
+            </Typography>
+            <Typography component="p" variant="p">
+              Wie in der{" "}
+              <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Infografik_Antigentest_PDF.html">
+                RKI Infografik
+              </a>{" "}
+              schön dargestellt, gibt es bei ungezielten Tests eine
+              Wahrscheinlichkeit, dass man trotz positivem Antigen Corona Tests
+              nicht infiziert ist. Sie hängt von den Eigenschaften des Tests ab
+              und der Anzahl der Infizierten in der Bevölkerung. Die Berechnung
+              dieser Wahrscheinlichkeit lässt sich hier nachvollziehen. Viel
+              Spaß!
+            </Typography>
+          </div>
+        </div>
       </div>
+
       <Box mt={8}>
         <Copyright />
       </Box>
