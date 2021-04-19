@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/wirklichpositiv/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/wirklichpositiv/static/js/main.cb690f09.chunk.js",
-    "main.js.map": "/wirklichpositiv/static/js/main.cb690f09.chunk.js.map",
+    "main.js": "/wirklichpositiv/static/js/main.c52b0448.chunk.js",
+    "main.js.map": "/wirklichpositiv/static/js/main.c52b0448.chunk.js.map",
     "runtime-main.js": "/wirklichpositiv/static/js/runtime-main.84eb46e7.js",
     "runtime-main.js.map": "/wirklichpositiv/static/js/runtime-main.84eb46e7.js.map",
-    "static/js/2.4032765f.chunk.js": "/wirklichpositiv/static/js/2.4032765f.chunk.js",
-    "static/js/2.4032765f.chunk.js.map": "/wirklichpositiv/static/js/2.4032765f.chunk.js.map",
+    "static/js/2.9331baca.chunk.js": "/wirklichpositiv/static/js/2.9331baca.chunk.js",
+    "static/js/2.9331baca.chunk.js.map": "/wirklichpositiv/static/js/2.9331baca.chunk.js.map",
     "static/js/3.3daffd2b.chunk.js": "/wirklichpositiv/static/js/3.3daffd2b.chunk.js",
     "static/js/3.3daffd2b.chunk.js.map": "/wirklichpositiv/static/js/3.3daffd2b.chunk.js.map",
     "index.html": "/wirklichpositiv/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/wirklichpositiv/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.4032765f.chunk.js.LICENSE.txt": "/wirklichpositiv/static/js/2.4032765f.chunk.js.LICENSE.txt"
+    "static/js/2.9331baca.chunk.js.LICENSE.txt": "/wirklichpositiv/static/js/2.9331baca.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.84eb46e7.js",
-    "static/js/2.4032765f.chunk.js",
+    "static/js/2.9331baca.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.cb690f09.chunk.js"
+    "static/js/main.c52b0448.chunk.js"
   ]
 }
