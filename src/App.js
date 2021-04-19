@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     background: "linear-gradient(45deg, #FEFFFB 30%, #FFEEF3 90%)",
   },
+  productParameters: {
+    display: "flex",
+    flexDirection: "row",
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -167,30 +171,32 @@ function App() {
                 />
               )}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              name="sensitivity"
-              label="Sensitivität"
-              id="sensitivity"
-              value={selectedProduct.sensitivity}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              name="specificity"
-              label="Spezifität"
-              id="specificity"
-              value={selectedProduct.specifity}
-            />
+            <div className={classes.productParameters}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                fullWidth
+                name="sensitivity"
+                label="Sensitivität"
+                id="sensitivity"
+                value={selectedProduct.sensitivity}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                fullWidth
+                name="specificity"
+                label="Spezifität"
+                id="specificity"
+                value={selectedProduct.specifity}
+              />
+            </div>
             <Typography component="h4" variant="h7">
               Wieviele Infizierte pro 100.000?
             </Typography>
