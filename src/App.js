@@ -94,10 +94,11 @@ function App() {
     console.log("Starting web app and loading csv..");
     const newProducts = [...products];
 
-    fetch(".//antigentests.csv")
+    fetch(process.env.PUBLIC_URL + "/antigentests.csv")
       // Retrieve its body as ReadableStream
       .then((response) => response.text())
       .then((txt) => {
+        console.log(txt);
         parse(
           txt,
           {
