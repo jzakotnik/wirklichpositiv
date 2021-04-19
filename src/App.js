@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
   },
+  resultProbabilities: {
+    display: "flex",
+    flexDirection: "row",
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -59,15 +63,18 @@ function App() {
   const classes = useStyles();
   const defaultInfected = 150;
   const [products, setProducts] = useState([
-    { productname: "Standard", specifity: 80, sensitivity: 95 },
+    { productname: "Standard", specifity: 80, sensitivity: 98 },
   ]);
   const [selectedProduct, setSelectedProduct] = useState({
     productname: "Standard",
-    specifity: 80,
-    sensitivity: 95,
+    specifity: 98,
+    sensitivity: 80,
   });
   const [infected, setInfected] = useState(defaultInfected);
   const [probabilityFalsePositive, setProbabilityFalsePositive] = useState(
+    "20"
+  );
+  const [probabilityFalseNegative, setProbabilityFalseNegative] = useState(
     "20"
   );
 
@@ -85,7 +92,10 @@ function App() {
       infected * (1 - selectedProduct.sensitivity / 100);
     const notInfectedPositiveTest =
       notInfected * (1 - selectedProduct.specifity / 100);
-    const probability = infectedPositiveTest / notInfectedPositiveTest;
+    const notInfectedNegativeTest =
+      (selectedProduct.specifity / 100) * notInfected;
+    const positiveprobability = infectedPositiveTest / notInfectedPositiveTest;
+    const negativeprobability = infectedNegativeTest / notInfectedNegativeTest;
     const dataset = {
       specifity: selectedProduct.specifity,
       sensitivity: selectedProduct.sensitivity,
@@ -94,10 +104,12 @@ function App() {
       infectedPositiveTest: infectedPositiveTest,
       infectedNegativeTest: infectedNegativeTest,
       notInfectedPositiveTest: notInfectedPositiveTest,
-      probability: probability,
+      positiveprobability: positiveprobability * 100,
+      negativeprobability: negativeprobability * 100,
     };
-    //console.log(dataset);
-    setProbabilityFalsePositive(Math.round(probability * 100));
+    console.log(dataset);
+    setProbabilityFalsePositive((positiveprobability * 100).toFixed(1));
+    setProbabilityFalseNegative((negativeprobability * 100).toFixed(5));
   };
 
   useEffect(() => {
@@ -125,6 +137,7 @@ function App() {
                   sensitivity: parseFloat(p[12].replace(",", ".")),
                 });
               }
+              return true;
             });
           }
         );
@@ -225,18 +238,40 @@ function App() {
               id="infected"
               value={infected}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              InputProps={{
-                readOnly: true,
-              }}
-              fullWidth
-              name="Wahrscheinlichkeit"
-              label="Wahrscheinlichkeit für Infektion bei positivem Test"
-              id="probability"
-              value={probabilityFalsePositive + " %"}
-            />
+            <div>
+              <Typography component="h4" variant="h7">
+                Ich habe ein positives Testergebnis: wie wahrscheinlich bin ich
+                akut infiziert?
+              </Typography>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                fullWidth
+                name="Wahrscheinlichkeit"
+                label="Wahrscheinlichkeit"
+                id="probability"
+                value={probabilityFalsePositive + " %"}
+              />
+              <Typography component="h4" variant="h7">
+                Ich habe ein negatives Testergebnis: wie wahrscheinlich bin ich
+                doch akut infiziert?
+              </Typography>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                InputProps={{
+                  readOnly: true,
+                }}
+                fullWidth
+                name="Wahrscheinlichkeit negativ"
+                label="Wahrscheinlichkeit"
+                id="probabilit_negative"
+                value={probabilityFalseNegative + " %"}
+              />
+            </div>
             <Typography component="h4" variant="h7">
               Worum geht es?
             </Typography>
