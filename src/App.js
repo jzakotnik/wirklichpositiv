@@ -32,7 +32,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: "linear-gradient(45deg, #FEFFFB 30%, #FFCEF3 90%)",
+    background: "linear-gradient(45deg, #FEFFFB 30%, #FFEEF3 90%)",
   },
   paper: {
     marginTop: theme.spacing(8),
