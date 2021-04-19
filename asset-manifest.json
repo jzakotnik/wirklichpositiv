@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/wirklichpositiv/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/wirklichpositiv/static/js/main.1b0795ac.chunk.js",
-    "main.js.map": "/wirklichpositiv/static/js/main.1b0795ac.chunk.js.map",
+    "main.js": "/wirklichpositiv/static/js/main.087f1366.chunk.js",
+    "main.js.map": "/wirklichpositiv/static/js/main.087f1366.chunk.js.map",
     "runtime-main.js": "/wirklichpositiv/static/js/runtime-main.84eb46e7.js",
     "runtime-main.js.map": "/wirklichpositiv/static/js/runtime-main.84eb46e7.js.map",
     "static/js/2.4032765f.chunk.js": "/wirklichpositiv/static/js/2.4032765f.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.84eb46e7.js",
     "static/js/2.4032765f.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.1b0795ac.chunk.js"
+    "static/js/main.087f1366.chunk.js"
   ]
 }
