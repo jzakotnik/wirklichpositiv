@@ -20,9 +20,8 @@ import parse from "csv-parse";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Impressum "}
-      <Link color="inherit" href="https://zakotnik.de">
-        Jure Zakotnik
+      <Link color="inherit" href="https://github.com/jzakotnik/wirklichpositiv">
+        Impressum und Infos - Jure Zakotnik
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -58,7 +57,7 @@ function App() {
   });
   const [infected, setInfected] = useState(defaultInfected);
   const [probabilityFalsePositive, setProbabilityFalsePositive] = useState(
-    "20%"
+    "20"
   );
 
   function valuetext(value) {
@@ -107,17 +106,27 @@ function App() {
           (err, output) => {
             console.log(output);
             output.map((p) => {
-              newProducts.push({
-                productname: p[3] + " - " + p[1],
-                specifity: parseFloat(p[10].replace(",", ".")),
-                sensitivity: parseFloat(p[12].replace(",", ".")),
-              });
+              //skip first line
+              if (p[3] != "Hersteller Name") {
+                newProducts.push({
+                  productname: p[3] + " - " + p[1],
+                  specifity: parseFloat(p[10].replace(",", ".")),
+                  sensitivity: parseFloat(p[12].replace(",", ".")),
+                });
+              }
             });
           }
         );
       });
     setProducts(newProducts);
-  }, [products.join(";")]);
+    setInfected(defaultInfected);
+  }, []);
+
+  useEffect(() => {
+    console.log("Refreshing calculation");
+    calcFalsePositive();
+    return () => {};
+  }, [selectedProduct, infected]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -130,6 +139,9 @@ function App() {
         <Avatar className={classes.avatar}>
           <LocalHospitalIcon />
         </Avatar>
+        <Typography component="h4" variant="h7">
+          Welcher Antigen-Test?
+        </Typography>
 
         <Autocomplete
           id="combo-box-demo"
@@ -174,7 +186,7 @@ function App() {
           value={selectedProduct.specifity}
         />
         <Typography component="h4" variant="h7">
-          Infizierte pro 100.000
+          Wieviele Infizierte pro 100.000?
         </Typography>
         <Slider
           defaultValue={defaultInfected}
@@ -187,7 +199,6 @@ function App() {
           max={1000}
           onChange={(event, newValue) => {
             setInfected(newValue);
-            calcFalsePositive();
           }}
         />
         <TextField
