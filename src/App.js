@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    padding: "10px",
+    padding: "5px",
+    spacing: "10px",
     alignItems: "center",
   },
   avatar: {
@@ -122,12 +123,12 @@ function App() {
       <CssBaseline />
 
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LocalHospitalIcon />
-        </Avatar>
         <Typography component="h1" variant="h5">
           Bin ich wirklich Corona-positiv?
         </Typography>
+        <Avatar className={classes.avatar}>
+          <LocalHospitalIcon />
+        </Avatar>
 
         <Autocomplete
           id="combo-box-demo"
