@@ -128,10 +128,6 @@ function App() {
         <Typography component="h1" variant="h5">
           Bin ich wirklich Corona-positiv?
         </Typography>
-        <Divider />
-        <Typography component="h2" variant="h5">
-          Hersteller
-        </Typography>
 
         <Autocomplete
           id="combo-box-demo"
@@ -154,7 +150,9 @@ function App() {
         <TextField
           variant="outlined"
           margin="normal"
-          disabled
+          InputProps={{
+            readOnly: true,
+          }}
           fullWidth
           name="sensitivity"
           label="Sensitivität"
@@ -164,14 +162,16 @@ function App() {
         <TextField
           variant="outlined"
           margin="normal"
-          disabled
+          InputProps={{
+            readOnly: true,
+          }}
           fullWidth
           name="specificity"
           label="Spezifität"
           id="specificity"
           value={selectedProduct.specifity}
         />
-        <Typography component="h2" variant="h5">
+        <Typography component="h4" variant="h7">
           Infizierte pro 100.000
         </Typography>
         <Slider
@@ -179,10 +179,10 @@ function App() {
           getAriaValueText={valuetext}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          step={5}
+          step={10}
           marks
           min={20}
-          max={600}
+          max={1000}
           onChange={(event, newValue) => {
             setInfected(newValue);
             calcFalsePositive();
@@ -191,12 +191,26 @@ function App() {
         <TextField
           variant="outlined"
           margin="normal"
-          disabled
+          InputProps={{
+            readOnly: true,
+          }}
+          fullWidth
+          name="infected"
+          label="Infizierte pro 100.000 Menschen"
+          id="infected"
+          value={infected}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          InputProps={{
+            readOnly: true,
+          }}
           fullWidth
           name="Wahrscheinlichkeit"
-          label="Wahrscheinlichkeit"
+          label="Wahrscheinlichkeit für korrekten positiven Test"
           id="probability"
-          value={probabilityFalsePositive}
+          value={probabilityFalsePositive + " %"}
         />
       </div>
       <Box mt={8}>
