@@ -6,6 +6,10 @@ Deshalb habe ich einen kleinen Rechner geschrieben, um die Wahrscheinlichkeit zu
 
 Viel Spaß damit!
 
+# Webseite
+
+Hier die [Webseite](http://wirklichpositiv.de) auf github pages
+
 # Impressum
 
 Dr. Jure Zakotnik
