@@ -179,7 +179,7 @@ function App() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Antigen Test Hersteller"
+                  label="Antigen-Test-Hersteller"
                   variant="outlined"
                 />
               )}
@@ -240,7 +240,7 @@ function App() {
             />
             <div>
               <Typography component="h4" variant="h7">
-                Ich habe ein positives Testergebnis: wie wahrscheinlich bin ich
+                Ich habe ein positives Testergebnis: Wie wahrscheinlich bin ich
                 akut infiziert?
               </Typography>
               <TextField
@@ -256,7 +256,7 @@ function App() {
                 value={probabilityFalsePositive + " %"}
               />
               <Typography component="h4" variant="h7">
-                Ich habe ein negatives Testergebnis: wie wahrscheinlich bin ich
+                Ich habe ein negatives Testergebnis: Wie wahrscheinlich bin ich
                 doch akut infiziert?
               </Typography>
               <TextField
@@ -281,7 +281,7 @@ function App() {
                 RKI Infografik
               </a>{" "}
               schön dargestellt, gibt es bei ungezielten Tests eine
-              Wahrscheinlichkeit, dass man trotz positivem Antigen Corona Tests
+              Wahrscheinlichkeit, dass man trotz positivem Antigen-Corona-Test
               nicht infiziert ist. Sie hängt von den Eigenschaften des Tests ab
               und der Anzahl der Infizierten in der Bevölkerung. Die Berechnung
               dieser Wahrscheinlichkeit lässt sich hier nachvollziehen. Viel
