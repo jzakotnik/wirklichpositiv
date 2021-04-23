@@ -94,8 +94,10 @@ function App() {
       notInfected * (1 - selectedProduct.specifity / 100);
     const notInfectedNegativeTest =
       (selectedProduct.specifity / 100) * notInfected;
-    const positiveprobability = infectedPositiveTest / notInfectedPositiveTest;
-    const negativeprobability = infectedNegativeTest / notInfectedNegativeTest;
+    const positiveprobability =
+      infectedPositiveTest / (infectedPositiveTest + notInfectedPositiveTest);
+    const negativeprobability =
+      infectedNegativeTest / (infectedNegativeTest + notInfectedNegativeTest);
     const dataset = {
       specifity: selectedProduct.specifity,
       sensitivity: selectedProduct.sensitivity,
