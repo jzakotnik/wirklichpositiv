@@ -22,6 +22,6 @@ info@wirklichpositiv.de
 
 # Quellen
 
-[Liste der Antigen-Tests und Parameter BfArM](https://antigentest.bfarm.de/ords/f?p=101:100:9264024647453:::::&tz=2:00)
+[Liste der Antigen-Tests und Parameter BfArM](https://www.bfarm.de/DE/Medizinprodukte/Antigentests/_node.html)
 
 [Erklärmodell RKI](https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Infografik_Antigentest_PDF.html)
