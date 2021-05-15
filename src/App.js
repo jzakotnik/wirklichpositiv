@@ -71,12 +71,10 @@ function App() {
     sensitivity: 80,
   });
   const [infected, setInfected] = useState(defaultInfected);
-  const [probabilityFalsePositive, setProbabilityFalsePositive] = useState(
-    "20"
-  );
-  const [probabilityFalseNegative, setProbabilityFalseNegative] = useState(
-    "20"
-  );
+  const [probabilityFalsePositive, setProbabilityFalsePositive] =
+    useState("20");
+  const [probabilityFalseNegative, setProbabilityFalseNegative] =
+    useState("20");
 
   function valuetext(value) {
     return `${value}`;
@@ -132,11 +130,11 @@ function App() {
             //console.log(output);
             output.map((p) => {
               //skip first line
-              if (p[3] != "Hersteller Name") {
+              if (p[2] != "Hersteller") {
                 newProducts.push({
                   productname: p[3] + " - " + p[1],
-                  specifity: parseFloat(p[10].replace(",", ".")),
-                  sensitivity: parseFloat(p[12].replace(",", ".")),
+                  specifity: parseFloat(p[6].replace(",", ".")),
+                  sensitivity: parseFloat(p[5].replace(",", ".")),
                 });
               }
               return true;
