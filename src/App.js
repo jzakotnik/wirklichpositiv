@@ -130,11 +130,11 @@ function App() {
             //console.log(output);
             output.map((p) => {
               //skip first line
-              if (p[2] != "Hersteller") {
+              if (p[1] != "Handelsname") {
                 newProducts.push({
                   productname: p[3] + " - " + p[1],
-                  specifity: parseFloat(p[6].replace(",", ".")),
-                  sensitivity: parseFloat(p[5].replace(",", ".")),
+                  specifity: parseFloat(p[12].replace(",", ".")),
+                  sensitivity: parseFloat(p[10].replace(",", ".")),
                 });
               }
               return true;
